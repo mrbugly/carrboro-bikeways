@@ -1,0 +1,195 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+#map {
+  height: 100%;
+  width: 100%;
+}
+
+/* Move Leaflet layers control to top-left */
+.leaflet-top.leaflet-right {
+  right: auto;
+  left: 10px;
+}
+
+/* Move the layers control to the right of the zoom buttons */
+.leaflet-control-layers {
+  margin-left: 50px !important;
+  margin-top: 0 !important;
+}
+
+#splashScreen {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5000;
+}
+
+#splashContent {
+  background: white;
+  width: 85%;
+  max-width: 420px;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  text-align: left;
+  font-family: sans-serif;
+}
+
+#splashContent {
+  display: flex;
+  flex-direction: column;
+}
+
+
+#splashLogo {
+  display: block;
+  width: 150px;        /* safe size */
+  max-width: 80%;
+  margin: 0 auto 20px auto;
+  pointer-events: none;   /* prevents blocking clicks */
+}
+
+#splashBtn {
+  display: block;
+  margin-left: auto;   /* pushes it to the right */
+  margin-right: 0;
+  margin-top: 18px;
+  padding: 10px 16px;
+  font-size: 16px;
+  background: #007ac2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* TOP-RIGHT TOOLBAR CONTAINER */
+#toolbar {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  gap: 10px;
+  z-index: 2000;
+}
+
+/* TOOLBAR BUTTONS */
+.tool-btn {
+  background: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.tool-btn.active {
+  background: #e0e0e0;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+}
+
+/* Legend / basemap panels */
+.legend-panel {
+  position: absolute;
+  top: 60px;
+  right: 10px;
+  z-index: 1500;
+  background: white;
+  padding: 10px;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  display: none;
+  width: 200px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin: 4px 0;
+}
+
+.legend-header {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.legend-header:hover {
+  text-decoration: underline;
+}
+
+.legend-chevron {
+  transition: transform 0.2s ease;
+  margin-right: 6px;
+  font-size: 12px;
+}
+
+.legend-chevron.expanded {
+  transform: rotate(90deg);
+}
+
+/* Measure + elevation points */
+.measure-point {
+  background: red;
+  border: 2px solid white;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.elev-point {
+  background: red;
+  border: 2px solid white;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  text-align: center;
+  line-height: 14px;
+}
+
+/* Cursors */
+.crosshair-cursor {
+  cursor: crosshair !important;
+}
+
+.info-cursor {
+  cursor: default !important;
+}
+
+/* Basemap options */
+.basemap-option {
+  padding: 6px 4px;
+  cursor: pointer;
+}
+
+.basemap-option:hover {
+  background: #eee;
+}
+
+/* Print styles */
+@media print {
+  #toolbar {
+    display: none;
+  }
+  #elevPanel {
+    position: static;
+    height: auto;
+    box-shadow: none;
+  }
+}

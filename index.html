@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mobile Leaflet GIS App</title>
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <link rel="stylesheet" href="css/styles.css" />
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/esri-leaflet"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<div id="splashScreen">
+  <div id="splashContent">
+  <img id="splashLogo" src="img/orebro-logo.png" alt="Logo">
+
+    <h2>Welcome to the Carrboro Bike Map</h2>
+
+    <p style="font-size:14px; line-height:1.4;">
+      This map is provided for general informational purposes only.  
+      Data may not be fully accurate or up to date.  
+      Use at your own discretion.
+    </p>
+
+    <h3>Tools</h3>
+
+<div class="tool-row">
+  <span class="tool-icon">
+    <svg width="24" height="24" viewBox="0 0 28 28">
+      <!-- Top sheet -->
+      <path d="M4 8l10 5 10-5-10-5-10 5z"
+            fill="#e0e0e0"
+            stroke="#666"
+            stroke-width="1"/>
+      <!-- Middle sheet shadow -->
+      <path d="M4 13l10 5 10-5"
+            fill="none"
+            stroke="rgba(0,0,0,0.15)"
+            stroke-width="3"
+            stroke-linecap="round"
+            opacity="0.4"/>
+      <!-- Middle sheet outline -->
+      <path d="M4 13l10 5 10-5"
+            fill="none"
+            stroke="#666"
+            stroke-width="1"/>
+      <!-- Bottom sheet shadow -->
+      <path d="M4 18l10 5 10-5"
+            fill="none"
+            stroke="rgba(0,0,0,0.15)"
+            stroke-width="3"
+            stroke-linecap="round"
+            opacity="0.4"/>
+      <!-- Bottom sheet outline -->
+      <path d="M4 18l10 5 10-5"
+            fill="none"
+            stroke="#666"
+            stroke-width="1"/>
+    </svg>
+  </span>
+  Layers — Show/hide map layers
+</div>
+
+
+    <div class="tool-row"><span class="tool-icon">ℹ️</span> Identify — Tap features to view attributes</div>
+<div class="tool-row">
+  <span class="tool-icon">
+    <svg width="22" height="22" viewBox="0 0 32 32">
+      <!-- Outer reticle ticks -->
+      <line x1="16" y1="2"  x2="16" y2="6"  stroke="#555" stroke-width="2" stroke-linecap="round"/>
+      <line x1="16" y1="26" x2="16" y2="30" stroke="#555" stroke-width="2" stroke-linecap="round"/>
+      <line x1="2"  y1="16" x2="6"  y2="16" stroke="#555" stroke-width="2" stroke-linecap="round"/>
+      <line x1="26" y1="16" x2="30" y2="16" stroke="#555" stroke-width="2" stroke-linecap="round"/>
+
+      <!-- Outer circle -->
+      <circle cx="16" cy="16" r="8"
+              fill="#e0e0e0"
+              stroke="#555"
+              stroke-width="2"/>
+
+      <!-- Soft shadow -->
+      <circle cx="16" cy="16" r="8"
+              fill="none"
+              stroke="rgba(0,0,0,0.15)"
+              stroke-width="4"
+              opacity="0.4"/>
+    </svg>
+  </span>
+  Locate — Zoom to your current location
+</div>
+
+
+    <div class="tool-row"><span class="tool-icon">📏</span> Measure — Measure distances on the map</div>
+    <div class="tool-row"><span class="tool-icon">⛰️</span> Elevation — Draw a route to view elevation profile</div>
+    <div class="tool-row"><span class="tool-icon">🖨️</span> Print — Print the current map view</div>
+    <div class="tool-row"><span class="tool-icon">🗺️</span> Basemaps — Switch between map backgrounds</div>
+
+    <button id="splashBtn" onclick="closeSplash()">Continue</button>
+  </div>
+</div>
+
+
+
+
+
+  <!-- TOP-RIGHT TOOLBAR -->
+  <div id="toolbar">
+    
+<div id="legendBtn" class="tool-btn" onclick="toggleLegend()">
+  <svg width="22" height="22" viewBox="0 0 28 28">
+    <!-- Top sheet -->
+    <path d="M4 8l10 5 10-5-10-5-10 5z"
+          fill="#e0e0e0"
+          stroke="#666"
+          stroke-width="1"/>
+
+    <!-- Middle sheet shadow -->
+    <path d="M4 13l10 5 10-5"
+          fill="none"
+          stroke="rgba(0,0,0,0.15)"
+          stroke-width="3"
+          stroke-linecap="round"
+          opacity="0.4"/>
+
+    <!-- Middle sheet outline -->
+    <path d="M4 13l10 5 10-5"
+          fill="none"
+          stroke="#666"
+          stroke-width="1"/>
+
+    <!-- Bottom sheet shadow -->
+    <path d="M4 18l10 5 10-5"
+          fill="none"
+          stroke="rgba(0,0,0,0.15)"
+          stroke-width="3"
+          stroke-linecap="round"
+          opacity="0.4"/>
+
+    <!-- Bottom sheet outline -->
+    <path d="M4 18l10 5 10-5"
+          fill="none"
+          stroke="#666"
+          stroke-width="1"/>
+  </svg>
+</div>
+
+<div id="infoBtn" class="tool-btn" onclick="toggleIdentify()">ℹ️</div>
+
+<div id="locateBtn" class="tool-btn" onclick="locateUser()">
+  <svg width="24" height="24" viewBox="0 0 32 32">
+    <!-- Outer reticle ticks -->
+    <line x1="16" y1="2"  x2="16" y2="6"  stroke="#555" stroke-width="2" stroke-linecap="round"/>
+    <line x1="16" y1="26" x2="16" y2="30" stroke="#555" stroke-width="2" stroke-linecap="round"/>
+    <line x1="2"  y1="16" x2="6"  y2="16" stroke="#555" stroke-width="2" stroke-linecap="round"/>
+    <line x1="26" y1="16" x2="30" y2="16" stroke="#555" stroke-width="2" stroke-linecap="round"/>
+
+    <!-- Outer circle -->
+    <circle cx="16" cy="16" r="8"
+            fill="#e0e0e0"
+            stroke="#555"
+            stroke-width="2"/>
+
+    <!-- Soft shadow for depth -->
+    <circle cx="16" cy="16" r="8"
+            fill="none"
+            stroke="rgba(0,0,0,0.15)"
+            stroke-width="4"
+            opacity="0.4"/>
+
+  </svg>
+</div>
+
+
+
+    <div id="measureBtn" class="tool-btn" onclick="toggleMeasure()">📏</div>
+    <div id="elevBtn" class="tool-btn" onclick="toggleElevation()">⛰️</div>
+    <div id="printBtn" class="tool-btn" onclick="printMap()">🖨️</div>
+    <div id="basemapBtn" class="tool-btn" onclick="toggleBasemaps()">🗺️</div>
+  </div>
+
+  <!-- MAP -->
+  <div id="map"></div>
+
+  <!-- LEGEND PANEL -->
+  <div class="legend-panel" id="legend"></div>
+
+  <!-- ELEVATION PANEL -->
+  <div id="elevPanel"
+       style="position:absolute; bottom:0; left:0; right:0; height:200px;
+              background:white; box-shadow:0 -2px 6px rgba(0,0,0,0.3);
+              display:none; z-index:2000; padding:10px;">
+    <canvas id="elevChart"></canvas>
+  </div>
+
+  <!-- BASEMAP PANEL -->
+  <div id="basemapPanel" class="legend-panel" style="display:none; padding:10px;">
+    <b>Basemaps</b><br><br>
+    <div class="basemap-option" onclick="setBasemap('streets')">Streets</div>
+    <div class="basemap-option" onclick="setBasemap('sat')">Satellite</div>
+    <div class="basemap-option" onclick="setBasemap('topo')">Topo</div>
+  </div>
+
+  <!-- JS (order matters: map first, then tools that use it) -->
+  <script src="js/map.js"></script>
+  <script src="js/basemaps.js"></script>
+  <script src="js/identify.js"></script>
+  <script src="js/measure.js"></script>
+  <script src="js/elevation.js"></script>
+  <script src="js/legend.js"></script>
+  <script src="js/geolocation.js"></script>
+
+</body>
+</html>
