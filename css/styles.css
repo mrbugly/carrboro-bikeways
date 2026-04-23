@@ -32,20 +32,35 @@ body, html {
   z-index: 5000;
 }
 
+/* Splash content box */
 #splashContent {
   background: white;
   width: 85%;
   max-width: 420px;
-  padding: 20px;
-  border-radius: 10px;
+  padding: 24px;
+  border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
   text-align: left;
   font-family: sans-serif;
+  position: relative;
+  border-top: 6px solid #8dc63f; /* subtle green accent */
 }
 
-#splashContent {
-  display: flex;
-  flex-direction: column;
+/* Title styling */
+#splashContent h2 {
+  margin-top: 0;
+  text-align: center;
+  color: #552988; /* purple accent */
+  font-weight: 700;
+}
+
+/* Section header */
+#splashContent h3 {
+  margin-top: 18px;
+  color: #552988;
+  border-bottom: 2px solid #8dc63f;
+  padding-bottom: 4px;
+  display: inline-block;
 }
 
 
@@ -57,18 +72,41 @@ body, html {
   pointer-events: none;   /* prevents blocking clicks */
 }
 
+/* Continue button */
 #splashBtn {
   display: block;
-  margin-left: auto;   /* pushes it to the right */
+  margin-left: auto;
   margin-right: 0;
-  margin-top: 18px;
-  padding: 10px 16px;
+  margin-top: 22px;
+  padding: 10px 18px;
   font-size: 16px;
-  background: #007ac2;
+  background: #552988;      /* purple primary */
   color: white;
   border: none;
   border-radius: 6px;
   cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+#splashBtn:hover {
+  background: #8dc63f;      /* green hover */
+}
+
+/* Tool rows */
+.tool-row {
+  display: flex;
+  align-items: center;
+  margin: 6px 0;
+  font-size: 15px;
+}
+
+/* Tool icons */
+.tool-icon {
+  width: 28px;
+  display: inline-block;
+  font-size: 20px;
+  text-align: center;
+  margin-right: 6px;
 }
 
 /* TOP-RIGHT TOOLBAR CONTAINER */
