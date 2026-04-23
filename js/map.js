@@ -28,3 +28,7 @@ function printMap() {
 function closeSplash() {
   document.getElementById("splashScreen").style.display = "none";
 }
+
+function openSplash() {
+  document.getElementById("splashScreen").style.display = "flex";
+}

@@ -14,7 +14,8 @@
 
 <body>
 
-<div id="splashScreen">
+<div id="splashScreen" style="display:flex;">
+
   <div id="splashContent">
   <img id="splashLogo" src="img/carrboro-logo.png" alt="Logo">
 
@@ -68,7 +69,18 @@
 </div>
 
 
-    <div class="tool-row"><span class="tool-icon">ℹ️</span> Identify — Tap features to view attributes</div>
+<div class="tool-row">
+  <span class="tool-icon">
+    <svg width="22" height="22" viewBox="0 0 24 24">
+      <path d="M3 3l7 17 2-7 7-2L3 3z" fill="#555"/>
+    </svg>
+  </span>
+  Identify — Tap features to view attributes
+</div>
+
+
+
+	
 <div class="tool-row">
   <span class="tool-icon">
     <svg width="22" height="22" viewBox="0 0 32 32">
@@ -150,7 +162,12 @@
   </svg>
 </div>
 
-<div id="infoBtn" class="tool-btn" onclick="toggleIdentify()">ℹ️</div>
+<div id="infoBtn" class="tool-btn" onclick="toggleIdentify()">
+  <svg width="20" height="20" viewBox="0 0 24 24">
+    <path d="M3 3l7 17 2-7 7-2L3 3z" fill="#555"/>
+  </svg>
+</div>
+
 
 <div id="locateBtn" class="tool-btn" onclick="locateUser()">
   <svg width="24" height="24" viewBox="0 0 32 32">
@@ -182,6 +199,11 @@
     <div id="elevBtn" class="tool-btn" onclick="toggleElevation()">⛰️</div>
     <div id="printBtn" class="tool-btn" onclick="printMap()">🖨️</div>
     <div id="basemapBtn" class="tool-btn" onclick="toggleBasemaps()">🗺️</div>
+	<div id="aboutBtn" class="tool-btn" onclick="openSplash()">
+  <span style="font-size:20px; font-weight:bold;">i</span>
+</div>
+
+
   </div>
 
   <!-- MAP -->
