@@ -30,8 +30,13 @@ map.on("popupclose", function () {
 
 // Tap-to-identify only when enabled
 map.on("click", function (e) {
-  if (!identifyEnabled) return;   // <-- stops popups during tools
-
+  if (!identifyEnabled) {
+    // Prevent identify from interfering with other tools
+    if (e.originalEvent) {
+      e.originalEvent._stopped = true;
+    }
+    return;
+  }
 
   L.esri
     .identifyFeatures({

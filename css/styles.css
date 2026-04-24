@@ -220,6 +220,27 @@ body, html {
   background: #eee;
 }
 
+/* Elevation panel container */
+#elevPanel {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+  max-height: 260px;     /* keeps the panel from getting too tall */
+  overflow-y: auto;      /* allows scrolling if needed */
+  background: white;
+  padding: 10px;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  z-index: 1500;
+}
+
+/* Pull the chart upward slightly */
+#elevPanel canvas {
+  margin-bottom: 50px;  /* lifts the x-axis title into view */
+}
+
+
 /* Print styles */
 @media print {
   #toolbar {
