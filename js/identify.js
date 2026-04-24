@@ -19,7 +19,7 @@ function toggleIdentify() {
 
 // Tap-to-identify only when enabled
 map.on("click", function (e) {
-  if (!identifyMode) return;
+  //if (!identifyMode) return;
 
   L.esri
     .identifyFeatures({
