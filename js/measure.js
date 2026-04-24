@@ -10,9 +10,11 @@ function toggleMeasure() {
   var btn = document.getElementById("measureBtn");
 
   if (measuring) {
+    identifyEnabled = false;   // <-- disable identify
     btn.classList.add("active");
     map.getContainer().classList.add("crosshair-cursor");
   } else {
+    identifyEnabled = true;    // <-- re-enable identify
     btn.classList.remove("active");
     map.getContainer().classList.remove("crosshair-cursor");
 
@@ -26,6 +28,7 @@ function toggleMeasure() {
     map.closePopup();
   }
 }
+
 
 map.on("click", function (e) {
   if (!measuring) return;

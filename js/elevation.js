@@ -12,6 +12,7 @@ function toggleElevation() {
   var panel = document.getElementById("elevPanel");
 
   if (elevMode) {
+	identifyEnabled = false;   // <-- disable identify
     btn.classList.add("active");
     map.getContainer().classList.add("crosshair-cursor");
 
@@ -23,6 +24,7 @@ function toggleElevation() {
       </div>
     `;
   } else {
+	identifyEnabled = true;    // <-- re-enable identify
     btn.classList.remove("active");
     map.getContainer().classList.remove("crosshair-cursor");
 

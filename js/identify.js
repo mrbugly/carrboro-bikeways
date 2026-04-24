@@ -1,4 +1,6 @@
 // Identify tool
+var highlightLayer = null;
+
 var identifyMode = false;
 
 function toggleIdentify() {
@@ -17,9 +19,19 @@ function toggleIdentify() {
   }
 }
 
+map.on("popupclose", function () {
+  if (highlightLayer) {
+    map.removeLayer(highlightLayer);
+    highlightLayer = null;
+  }
+});
+
+
+
 // Tap-to-identify only when enabled
 map.on("click", function (e) {
-  //if (!identifyMode) return;
+  if (!identifyEnabled) return;   // <-- stops popups during tools
+
 
   L.esri
     .identifyFeatures({
@@ -36,6 +48,29 @@ map.on("click", function (e) {
       var f = featureCollection.features[0];
       var props = f.properties;
       var layerId = f.layerId;
+
+		// Remove previous highlight
+		if (highlightLayer) {
+		  map.removeLayer(highlightLayer);
+		  highlightLayer = null;
+		}
+
+		// Highlight the new feature
+		highlightLayer = L.geoJSON(f, {
+		  style: function () {
+			return {
+			  color: "#552988",      // purple outline
+			  weight: 8,
+			  opacity: 0.5,
+			  fillColor: "#8dc63f",  // subtle green fill
+			  fillOpacity: 0.25
+			};
+		  }
+		}).addTo(map);
+
+
+
+
 
       var html = "";
 

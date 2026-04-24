@@ -1,3 +1,7 @@
+
+
+var identifyEnabled = true;
+
 // Initialize map
 var map = L.map('map').setView([35.9106, -79.0755], 14);
 
