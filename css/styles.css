@@ -21,6 +21,12 @@ body, html {
   margin-top: 0 !important;
 }
 
+/* Hide zoom buttons */
+.leaflet-control-zoom {
+  display: none !important;
+}
+
+
 #splashScreen {
   position: fixed;
   inset: 0;
