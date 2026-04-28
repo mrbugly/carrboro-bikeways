@@ -37,7 +37,25 @@ fetch("https://gis.carrboronc.gov/server/rest/services/SP/BikeSP/MapServer/legen
 
       const chevron = document.createElement("span");
       chevron.className = "legend-chevron";
-      chevron.textContent = "▶";
+      
+      // Create SVG chevron
+      const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      svg.setAttribute("viewBox", "0 0 24 24");
+      svg.setAttribute("width", "12");
+      svg.setAttribute("height", "12");
+      svg.style.display = "inline-block";
+      svg.style.verticalAlign = "middle";
+      
+      const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      path.setAttribute("d", "M 8 4 L 16 12 L 8 20");
+      path.setAttribute("fill", "none");
+      path.setAttribute("stroke", "currentColor");
+      path.setAttribute("stroke-width", "2");
+      path.setAttribute("stroke-linecap", "round");
+      path.setAttribute("stroke-linejoin", "round");
+      
+      svg.appendChild(path);
+      chevron.appendChild(svg);
 
       const header = document.createElement("div");
       header.className = "legend-header";
