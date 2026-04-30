@@ -10,8 +10,8 @@ fetch("https://gis.carrboronc.gov/server/rest/services/SP/BikeSP/MapServer/legen
     var legendDiv = document.getElementById("legend");
     legendDiv.innerHTML = "";
 
-    const includeLayers = [0,20,30,40,50,60,70,80,90];
-    let visible = bikeLayer.options.layers.slice();
+    const includeLayers = [0,20,30,40,50,60,70,80];
+    let visible = [0]; // Start with only Bike Facilities (layer 0) visible
 
     data.layers.forEach(layer => {
       if (!includeLayers.includes(layer.layerId)) return;
