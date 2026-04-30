@@ -109,5 +109,9 @@ if (layer.layerId === 0) {
         }
       });
     });
+  })
+  .then(() => {
+    // Set initial layer visibility after legend is built
+    bikeLayer.setLayers(visible);
   });
 
