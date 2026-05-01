@@ -22,9 +22,10 @@
     <h2>Carrboro Bikeways Map</h2>
 
     <p style="font-size:14px; line-height:1.4;">
-      This map is provided for general informational purposes only.  
-      Data may not be fully accurate or up to date.  
-      Use at your own discretion.
+      This map is provided for informational and planning purposes only.  
+      Data may not be fully accurate or up to date. 
+      Users are responsible for verifying route conditions, local regulations, and safety before riding.
+      The Town of Carrboro disclaims any liability for damages or injuries resulting from use of this map.
     </p>
 
     <button id="splashBtn" onclick="closeSplash()">I agree</button>
@@ -152,8 +153,14 @@
   </div>
 </div>
 
-
-
+<div id="tochNotice" class="popup-overlay" style="display:none;">
+  <div class="popup-box">
+    <div class="popup-content">
+      <p>The TOCH Trails layer is provided by the Town of Chapel Hill. The Town of Carrboro provides the data for informational purposes only, without any guarantee of accuracy, completeness, or reliability.</p>
+      <button onclick="closeTOCHPopup()">OK</button>
+    </div>
+  </div>
+</div>
 
 
   <!-- TOP-RIGHT TOOLBAR -->

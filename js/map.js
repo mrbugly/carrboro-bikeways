@@ -21,6 +21,22 @@ var bikeLayer = L.esri.dynamicMapLayer({
   opacity: 1
 }).addTo(map);
 
+// TOCH Trails feature service (off by default)
+var tochTrailStyles = {
+  "Bike Lane": { color: "#38A800", weight: 3, opacity: 0.8 },
+  "Paved Greenway": { color: "#98E600", weight: 3, opacity: 0.8 },
+  "Sharrows": { color: "#F5CA7A", weight: 3, opacity: 0.8 },
+  "Unpaved Greenway": { color: "#734C00", weight: 3, opacity: 0.8 }
+};
+
+var tochTrailsLayer = L.esri.featureLayer({
+  url: "https://services2.arcgis.com/7KRXAKALbBGlCW77/arcgis/rest/services/TOCH_Trails/FeatureServer/0",
+  style: function (feature) {
+    var type = feature.properties && feature.properties.FeatureTyp;
+    return tochTrailStyles[type] || { color: "#1f78b4", weight: 3, opacity: 0.8 };
+  }
+});
+
 // Layer control
 // L.control.layers(null, { "Bike Facilities": bikeLayer }, { collapsed: true }).addTo(map);
 

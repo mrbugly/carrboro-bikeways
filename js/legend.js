@@ -3,15 +3,46 @@ function toggleLegend() {
   panel.style.display = (panel.style.display === "block") ? "none" : "block";
 }
 
+function showTOCHPopup() {
+  var popup = document.getElementById("tochNotice");
+  if (popup) popup.style.display = "flex";
+}
+
+function closeTOCHPopup() {
+  var popup = document.getElementById("tochNotice");
+  if (popup) popup.style.display = "none";
+}
+
 // Fetch real legend from MapServer and use the imageData
+const legendDiv = document.getElementById("legend");
+const includeLayers = [0,20,30,40,50,60,70,80];
+let visible = [0]; // Start with only Bike Facilities (layer 0) visible
+let tochTrailsVisible = false; // Off by default for the TOCH Trails service
+
+function createLineSwatch(color, width) {
+  const swatch = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  swatch.setAttribute("width", "24");
+  swatch.setAttribute("height", "14");
+  swatch.style.marginRight = "8px";
+  swatch.style.verticalAlign = "middle";
+
+  const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+  line.setAttribute("x1", "2");
+  line.setAttribute("y1", "7");
+  line.setAttribute("x2", "22");
+  line.setAttribute("y2", "7");
+  line.setAttribute("stroke", color);
+  line.setAttribute("stroke-width", width);
+  line.setAttribute("stroke-linecap", "round");
+
+  swatch.appendChild(line);
+  return swatch;
+}
+
 fetch("https://gis.carrboronc.gov/server/rest/services/SP/BikeSP/MapServer/legend?f=pjson")
   .then(r => r.json())
   .then(data => {
-    var legendDiv = document.getElementById("legend");
     legendDiv.innerHTML = "";
-
-    const includeLayers = [0,20,30,40,50,60,70,80];
-    let visible = [0]; // Start with only Bike Facilities (layer 0) visible
 
     data.layers.forEach(layer => {
       if (!includeLayers.includes(layer.layerId)) return;
@@ -92,11 +123,10 @@ fetch("https://gis.carrboronc.gov/server/rest/services/SP/BikeSP/MapServer/legen
       });
 
       legendDiv.appendChild(content);
-// --- Auto-expand Bike Facilities (layer 0) ---
-if (layer.layerId === 0) {
-  content.style.display = "block";
-  chevron.classList.add("expanded");
-}
+      if (layer.layerId === 0) {
+        content.style.display = "block";
+        chevron.classList.add("expanded");
+      }
 
       headerWrapper.addEventListener("click", () => {
         const isOpen = content.style.display === "block";
@@ -109,9 +139,80 @@ if (layer.layerId === 0) {
         }
       });
     });
+
+    return fetch("https://services2.arcgis.com/7KRXAKALbBGlCW77/arcgis/rest/services/TOCH_Trails/FeatureServer/0?f=pjson");
+  })
+  .then(r => r.json())
+  .then(trailData => {
+    const trailRow = document.createElement("div");
+    trailRow.style.display = "flex";
+    trailRow.style.alignItems = "center";
+    trailRow.style.marginTop = "10px";
+
+    const trailCheckbox = document.createElement("input");
+    trailCheckbox.type = "checkbox";
+    trailCheckbox.checked = tochTrailsVisible;
+    trailCheckbox.style.marginRight = "6px";
+
+    trailCheckbox.addEventListener("change", function () {
+      tochTrailsVisible = this.checked;
+      if (tochTrailsVisible) {
+        tochTrailsLayer.addTo(map);
+        showTOCHPopup();
+      } else {
+        map.removeLayer(tochTrailsLayer);
+      }
+    });
+
+    const trailLabel = document.createElement("div");
+    trailLabel.className = "legend-header";
+    trailLabel.textContent = "TOCH Trails";
+
+    trailRow.appendChild(trailCheckbox);
+    trailRow.appendChild(trailLabel);
+    legendDiv.appendChild(trailRow);
+
+    const trailContent = document.createElement("div");
+    trailContent.style.display = "block";
+    trailContent.style.marginLeft = "26px";
+    trailContent.style.marginTop = "4px";
+
+    const renderer = trailData.drawingInfo && trailData.drawingInfo.renderer;
+    const infos = renderer && (renderer.uniqueValueInfos || (renderer.uniqueValueGroups && renderer.uniqueValueGroups[0] && renderer.uniqueValueGroups[0].classes));
+
+    if (infos && infos.length) {
+      infos.forEach(info => {
+        const entry = document.createElement("div");
+        entry.className = "legend-item";
+
+        const symbol = info.symbol;
+        const colorArray = symbol && symbol.color;
+        const color = colorArray ? `rgba(${colorArray[0]},${colorArray[1]},${colorArray[2]},${colorArray[3] / 255})` : "#1f78b4";
+        const width = symbol && symbol.width ? symbol.width + 2 : 4;
+
+        const swatch = createLineSwatch(color, width);
+        const label = document.createElement("span");
+        label.textContent = info.label || info.value || "Trail type";
+
+        entry.appendChild(swatch);
+        entry.appendChild(label);
+        trailContent.appendChild(entry);
+      });
+    } else {
+      const noSym = document.createElement("div");
+      noSym.textContent = "No legend categories available.";
+      noSym.style.fontSize = "12px";
+      noSym.style.color = "#555";
+      trailContent.appendChild(noSym);
+    }
+
+    legendDiv.appendChild(trailContent);
   })
   .then(() => {
     // Set initial layer visibility after legend is built
     bikeLayer.setLayers(visible);
+  })
+  .catch(err => {
+    console.error("Legend fetch error:", err);
   });
 
