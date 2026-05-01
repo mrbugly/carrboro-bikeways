@@ -3,7 +3,10 @@
 var identifyEnabled = true;
 
 // Initialize map
-var map = L.map('map').setView([35.9106, -79.0755], 14);
+var map = L.map('map', { zoomControl: false }).setView([35.9106, -79.0755], 14);
+
+// Add zoom control to top left
+L.control.zoom({ position: 'topleft' }).addTo(map);
 
 // Base Carto basemap (as in your original file)
 var basemap = L.tileLayer(
