@@ -19,6 +19,7 @@ const includeLayers = [0,20,30,40,50,60,70,80];
 let visible = [0]; // Start with only Bike Facilities (layer 0) visible
 let tochTrailsVisible = false; // Off by default for the TOCH Trails service
 let jurisVisible = false; // Off by default for the Planning Jurisdiction service
+let cityLimitsVisible = false; // Off by default for the Chapel Hill City Limits service
 
 function createLineSwatch(color, width) {
   const swatch = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -168,6 +169,34 @@ fetch("https://gis.carrboronc.gov/server/rest/services/SP/BikeSP/MapServer/legen
     jurisRow.appendChild(jurisCheckbox);
     jurisRow.appendChild(jurisLabel);
     legendDiv.appendChild(jurisRow);
+
+    // Add Chapel Hill City Limits layer below Planning Jurisdiction
+    const cityLimitsRow = document.createElement("div");
+    cityLimitsRow.style.display = "flex";
+    cityLimitsRow.style.alignItems = "center";
+    cityLimitsRow.style.marginTop = "10px";
+
+    const cityLimitsCheckbox = document.createElement("input");
+    cityLimitsCheckbox.type = "checkbox";
+    cityLimitsCheckbox.checked = cityLimitsVisible;
+    cityLimitsCheckbox.style.marginRight = "6px";
+
+    cityLimitsCheckbox.addEventListener("change", function () {
+      cityLimitsVisible = this.checked;
+      if (cityLimitsVisible) {
+        cityLimitsLayer.addTo(map);
+      } else {
+        map.removeLayer(cityLimitsLayer);
+      }
+    });
+
+    const cityLimitsLabel = document.createElement("div");
+    cityLimitsLabel.className = "legend-header";
+    cityLimitsLabel.textContent = "Chapel Hill City Limits";
+
+    cityLimitsRow.appendChild(cityLimitsCheckbox);
+    cityLimitsRow.appendChild(cityLimitsLabel);
+    legendDiv.appendChild(cityLimitsRow);
 
     return fetch("https://services2.arcgis.com/7KRXAKALbBGlCW77/arcgis/rest/services/TOCH_Trails/FeatureServer/0?f=pjson");
   })

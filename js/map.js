@@ -28,9 +28,20 @@ var bikeLayer = L.esri.dynamicMapLayer({
 var jurisLayer = L.esri.featureLayer({
   url: "https://gis.carrboronc.gov/server/rest/services/SP/JurisSP/MapServer/20",
   style: {
+    color: 'red',
+    weight: 6,
+    opacity: .5
+  }
+});
+
+// Chapel Hill City Limits layer (off by default)
+var cityLimitsLayer = L.esri.featureLayer({
+  url: "https://gis.carrboronc.gov/server/rest/services/SP/CityLimitsCHCSP/MapServer/10",
+  style: {
     color: 'black',
     weight: 2,
-    opacity: 1
+    fillColor: 'gray',
+    fillOpacity: 0.1
   }
 });
 
