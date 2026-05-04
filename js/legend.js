@@ -18,6 +18,7 @@ const legendDiv = document.getElementById("legend");
 const includeLayers = [0,20,30,40,50,60,70,80];
 let visible = [0]; // Start with only Bike Facilities (layer 0) visible
 let tochTrailsVisible = false; // Off by default for the TOCH Trails service
+let jurisVisible = false; // Off by default for the Planning Jurisdiction service
 
 function createLineSwatch(color, width) {
   const swatch = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -139,6 +140,34 @@ fetch("https://gis.carrboronc.gov/server/rest/services/SP/BikeSP/MapServer/legen
         }
       });
     });
+
+    // Add Planning Jurisdiction layer below Bike Facilities
+    const jurisRow = document.createElement("div");
+    jurisRow.style.display = "flex";
+    jurisRow.style.alignItems = "center";
+    jurisRow.style.marginTop = "10px";
+
+    const jurisCheckbox = document.createElement("input");
+    jurisCheckbox.type = "checkbox";
+    jurisCheckbox.checked = jurisVisible;
+    jurisCheckbox.style.marginRight = "6px";
+
+    jurisCheckbox.addEventListener("change", function () {
+      jurisVisible = this.checked;
+      if (jurisVisible) {
+        jurisLayer.addTo(map);
+      } else {
+        map.removeLayer(jurisLayer);
+      }
+    });
+
+    const jurisLabel = document.createElement("div");
+    jurisLabel.className = "legend-header";
+    jurisLabel.textContent = "Planning Jurisdiction";
+
+    jurisRow.appendChild(jurisCheckbox);
+    jurisRow.appendChild(jurisLabel);
+    legendDiv.appendChild(jurisRow);
 
     return fetch("https://services2.arcgis.com/7KRXAKALbBGlCW77/arcgis/rest/services/TOCH_Trails/FeatureServer/0?f=pjson");
   })

@@ -24,6 +24,16 @@ var bikeLayer = L.esri.dynamicMapLayer({
   opacity: 1
 }).addTo(map);
 
+// Planning Jurisdiction layer (off by default)
+var jurisLayer = L.esri.featureLayer({
+  url: "https://gis.carrboronc.gov/server/rest/services/SP/JurisSP/MapServer/20",
+  style: {
+    color: 'black',
+    weight: 2,
+    opacity: 1
+  }
+});
+
 // TOCH Trails feature service (off by default)
 var tochTrailStyles = {
   "Bike Lane": { color: "#38A800", weight: 3, opacity: 0.8 },
