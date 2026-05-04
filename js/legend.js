@@ -20,6 +20,7 @@ let visible = [94]; // Start with only Bike Facilities (layer 94) visible
 let tochTrailsVisible = false; // Off by default for the TOCH Trails service
 let jurisVisible = false; // Off by default for the Planning Jurisdiction service
 let cityLimitsVisible = false; // Off by default for the Chapel Hill City Limits service
+let chcspVisible = false; // Off by default for the CHCSP service
 
 function createLineSwatch(color, width) {
   const swatch = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -170,6 +171,34 @@ fetch("https://gis.carrboronc.gov/server/rest/services/SP/BikeSP/MapServer/legen
     jurisRow.appendChild(jurisLabel);
     legendDiv.appendChild(jurisRow);
 
+    // Add CHCSP layer below Planning Jurisdiction
+    const chcspRow = document.createElement("div");
+    chcspRow.style.display = "flex";
+    chcspRow.style.alignItems = "center";
+    chcspRow.style.marginTop = "10px";
+
+    const chcspCheckbox = document.createElement("input");
+    chcspCheckbox.type = "checkbox";
+    chcspCheckbox.checked = chcspVisible;
+    chcspCheckbox.style.marginRight = "6px";
+
+    chcspCheckbox.addEventListener("change", function () {
+      chcspVisible = this.checked;
+      if (chcspVisible) {
+        chcspLayer.addTo(map);
+      } else {
+        map.removeLayer(chcspLayer);
+      }
+    });
+
+    const chcspLabel = document.createElement("div");
+    chcspLabel.className = "legend-header";
+    chcspLabel.textContent = "Carrboro Town Limits";
+
+    chcspRow.appendChild(chcspCheckbox);
+    chcspRow.appendChild(chcspLabel);
+    legendDiv.appendChild(chcspRow);
+
     // Add Chapel Hill City Limits layer below Planning Jurisdiction
     const cityLimitsRow = document.createElement("div");
     cityLimitsRow.style.display = "flex";
@@ -192,7 +221,7 @@ fetch("https://gis.carrboronc.gov/server/rest/services/SP/BikeSP/MapServer/legen
 
     const cityLimitsLabel = document.createElement("div");
     cityLimitsLabel.className = "legend-header";
-    cityLimitsLabel.textContent = "Chapel Hill City Limits";
+    cityLimitsLabel.textContent = "Chapel Hill Town Limits";
 
     cityLimitsRow.appendChild(cityLimitsCheckbox);
     cityLimitsRow.appendChild(cityLimitsLabel);

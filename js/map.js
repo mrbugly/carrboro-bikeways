@@ -34,6 +34,16 @@ var jurisLayer = L.esri.featureLayer({
   }
 });
 
+// New CHCSP layer (off by default)
+var chcspLayer = L.esri.featureLayer({
+  url: "https://gis.carrboronc.gov/server/rest/services/SP/CityLimitsCHCSP/MapServer/20",
+  style: {
+    color: 'blue',
+    weight: 4,
+    opacity: 0.7
+  }
+});
+
 // Chapel Hill City Limits layer (off by default)
 var cityLimitsLayer = L.esri.featureLayer({
   url: "https://gis.carrboronc.gov/server/rest/services/SP/CityLimitsCHCSP/MapServer/10",
