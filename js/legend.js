@@ -15,8 +15,8 @@ function closeTOCHPopup() {
 
 // Fetch real legend from MapServer and use the imageData
 const legendDiv = document.getElementById("legend");
-const includeLayers = [0,20,30,40,50,60,70,80];
-let visible = [0]; // Start with only Bike Facilities (layer 0) visible
+const includeLayers = [94,20,30,40,50,60,70,80];
+let visible = [94]; // Start with only Bike Facilities (layer 94) visible
 let tochTrailsVisible = false; // Off by default for the TOCH Trails service
 let jurisVisible = false; // Off by default for the Planning Jurisdiction service
 let cityLimitsVisible = false; // Off by default for the Chapel Hill City Limits service
@@ -125,7 +125,7 @@ fetch("https://gis.carrboronc.gov/server/rest/services/SP/BikeSP/MapServer/legen
       });
 
       legendDiv.appendChild(content);
-      if (layer.layerId === 0) {
+      if (layer.layerId === 94) {
         content.style.display = "block";
         chevron.classList.add("expanded");
       }

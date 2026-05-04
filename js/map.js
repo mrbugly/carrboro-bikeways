@@ -20,7 +20,7 @@ var basemap = L.tileLayer(
 // ESRI Dynamic Map Layer
 var bikeLayer = L.esri.dynamicMapLayer({
   url: "https://gis.carrboronc.gov/server/rest/services/SP/BikeSP/MapServer",
-  layers: [0], // Start with only Bike Facilities visible
+  layers: [94], // Start with only Bike Facilities visible
   opacity: 1
 }).addTo(map);
 
